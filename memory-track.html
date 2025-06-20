@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Memory Track – Venyyy</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&display=swap');
+    body {
+      margin: 0;
+      padding: 2rem;
+      font-family: 'Dancing Script', cursive;
+      background: linear-gradient(to bottom right, #fffbea, #e6dcf5);
+      color: #4a4a4a;
+      text-align: center;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: #5c5470;
+    }
+    .track {
+      margin: 1.5rem auto;
+      padding: 1rem;
+      max-width: 600px;
+      background: #ffffffcc;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    .track img {
+      width: 100px;
+      border-radius: 10px;
+    }
+    .track-title {
+      font-size: 1.5rem;
+      margin: 0.5rem 0;
+    }
+    .track-date {
+      font-size: 1rem;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+  <h1>Venyyy's Memory Track 🎧</h1>
+  <div id="results">Carregando memórias musicais...</div>
+
+  <script>
+    const API_KEY = '9f02894b66217b9b227aceb729352981';
+    const USER = 'Fionanokia';
+    const today = new Date();
+    const day = String(today.getDate()).padStart(2, '0');
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const yearsBack = 5;
+
+    const resultsDiv = document.getElementById('results');
+
+    async function fetchTracksForDate(year) {
+      const from = Math.floor(new Date(`${year}-${month}-${day}T00:00:00`).getTime() / 1000);
+      const to = Math.floor(new Date(`${year}-${month}-${day}T23:59:59`).getTime() / 1000);
+
+      const url = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${USER}&from=${from}&to=${to}&api_key=${API_KEY}&format=json&limit=1`;
+      const response = await fetch(url);
+      const data = await response.json();
+
+      if (data.recenttracks && data.recenttracks.track && data.recenttracks.track.length > 0) {
+        const track = data.recenttracks.track[0];
+        return {
+          year,
+          name: track.name,
+          artist: track.artist['#text'],
+          image: track.image[2]['#text'],
+          url: track.url
+        };
+      } else {
+        return { year, name: null };
+      }
+    }
+
+    async function loadMemoryTracks() {
+      let html = '';
+      const currentYear = today.getFullYear();
+
+      for (let y = 1; y <= yearsBack; y++) {
+        const year = currentYear - y;
+        const track = await fetchTracksForDate(year);
+
+        if (track.name) {
+          html += `
+            <div class="track">
+              <div class="track-date">${day}/${month}/${track.year}</div>
+              <img src="${track.image}" alt="Capa da música">
+              <div class="track-title">🎵 <a href="${track.url}" target="_blank">${track.name}</a> – ${track.artist}</div>
+            </div>
+          `;
+        } else {
+          html += `
+            <div class="track">
+              <div class="track-date">${day}/${month}/${track.year}</div>
+              <div class="track-title">Nenhuma música registrada neste dia.</div>
+            </div>
+          `;
+        }
+      }
+
+      resultsDiv.innerHTML = html;
+    }
+
+    loadMemoryTracks();
+  </script>
+</body>
+</html>
+<a href="index.html" style="
+  display: inline-block;
+  background: #f2e1ff;
+  color: #4a4a4a;
+  text-decoration: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 12px;
+  font-size: 1.2rem;
+  margin-top: 2rem;
+  border: 1px solid #c7b0df;
+  transition: background 0.3s ease;
+">← Voltar para a Página Inicial</a>
