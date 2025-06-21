@@ -1,142 +1,77 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Galeria Venyyy</title>
+  <title>Galeria do Venyyy</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&display=swap');
-
     body {
+      font-family: 'Arial', sans-serif;
       margin: 0;
-      font-family: 'Dancing Script', cursive;
-      background: linear-gradient(to bottom right, #e6dcf5, #fffbea);
-      color: #4a4a4a;
-      padding: 2rem;
-      transition: background 1s ease, color 0.5s;
-      position: relative;
-      overflow-x: hidden;
-    }
-
-    h2 {
-      font-size: 2.5rem;
-      text-align: center;
-      color: #5c5470;
-      margin-bottom: 2rem;
-    }
-
-    .carousel-container {
-      overflow: hidden;
-      position: relative;
-      width: 100%;
-    }
-
-    .carousel-track {
+      background-color: #f7f4fa;
+      color: #333;
       display: flex;
-      gap: 1.5rem;
-      animation: scrollImages 60s linear infinite;
-      width: max-content;
+      flex-direction: column;
+      align-items: center;
     }
-
-    .carousel-track img {
-      height: 300px;
-      border-radius: 15px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      object-fit: cover;
+    h1 {
+      margin: 20px 0;
+      font-family: 'Segoe UI', cursive;
+      color: #7c5e99;
     }
-
-    @keyframes scrollImages {
-      0% {
-        transform: translateX(0);
-      }
-      100% {
-        transform: translateX(-50%);
-      }
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 15px;
+      padding: 20px;
+      width: 90%;
+      max-width: 1200px;
     }
-
-    a.gallery-button {
+    .gallery-item {
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+    .gallery-item:hover {
+      transform: scale(1.03);
+    }
+    .gallery-item img {
+      width: 100%;
+      height: auto;
       display: block;
-      text-align: center;
-      margin: 3rem auto 0;
-      background: #dcd2f2;
-      color: #4a4a4a;
+    }
+    .next-button {
+      margin: 30px;
+      padding: 12px 24px;
+      background-color: #d6b4f9;
+      color: #fff;
       text-decoration: none;
-      padding: 0.6rem 1.2rem;
-      border-radius: 12px;
-      font-size: 1.2rem;
-      border: 1px solid #bba8e0;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
       transition: background 0.3s ease;
-      max-width: fit-content;
     }
-
-    a.gallery-button:hover {
-      background: #c8bae5;
-    }
-
-    .sparkle {
-      position: fixed;
-      pointer-events: none;
-      animation: floatUp linear infinite;
-      z-index: 0;
-    }
-
-    @keyframes floatUp {
-      0% { transform: translateY(0); opacity: 0.8; }
-      100% { transform: translateY(-100vh); opacity: 0; }
+    .next-button:hover {
+      background-color: #b383e3;
     }
   </style>
 </head>
 <body>
-  <div id="sparkles-container"></div>
-
-  <h2>Galeria de Lembranças</h2>
-  <div class="carousel-container">
-    <div class="carousel-track">
-      <img src="venyyy1.jpg.jpg" alt="Foto 1">
-      <img src="https://via.placeholder.com/400x500?text=Foto+2" alt="Foto 2">
-      <img src="https://via.placeholder.com/500x300?text=Foto+3" alt="Foto 3">
-      <img src="https://via.placeholder.com/300x400?text=Foto+4" alt="Foto 4">
-      <img src="https://via.placeholder.com/600x400?text=Foto+5" alt="Foto 5">
-      <img src="https://via.placeholder.com/350x350?text=Foto+6" alt="Foto 6">
-      <img src="https://via.placeholder.com/400x600?text=Foto+7" alt="Foto 7">
-      <img src="https://via.placeholder.com/400x300?text=Foto+8" alt="Foto 8">
-      <img src="https://via.placeholder.com/500x500?text=Foto+9" alt="Foto 9">
-      <img src="https://via.placeholder.com/300x500?text=Foto+10" alt="Foto 10">
-      <img src="https://via.placeholder.com/600x300?text=Foto+11" alt="Foto 11">
-      <img src="https://via.placeholder.com/350x450?text=Foto+12" alt="Foto 12">
-      <img src="https://via.placeholder.com/400x400?text=Foto+13" alt="Foto 13">
-      <!-- Repetição para loop suave -->
-      <img src="venyyy1.jpg.jpg" alt="Foto 1 (rep)">
-      <img src="https://via.placeholder.com/400x500?text=Foto+2" alt="Foto 2 (rep)">
-      <img src="https://via.placeholder.com/500x300?text=Foto+3" alt="Foto 3 (rep)">
-    </div>
+  <h1>Galeria de Lembranças</h1>
+  <div class="gallery">
+    <div class="gallery-item"><img src="venyyy1.jpg.jpg" alt="Foto 1" /></div>
+    <div class="gallery-item"><img src="venyyy2.jpg.jpeg" alt="Foto 2" /></div>
+    <div class="gallery-item"><img src="venyyy3.jpg.jpeg" alt="Foto 3" /></div>
+    <div class="gallery-item"><img src="venyyy4.jpg.jpeg" alt="Foto 4" /></div>
+    <div class="gallery-item"><img src="venyyy5.jpg.jpeg" alt="Foto 5" /></div>
+    <div class="gallery-item"><img src="venyyy6.jpg.jpeg" alt="Foto 6" /></div>
+    <div class="gallery-item"><img src="venyyy7.jpg.jpeg" alt="Foto 7" /></div>
+    <div class="gallery-item"><img src="venyyy8.jpg.jpeg" alt="Foto 8" /></div>
   </div>
 
-  <a href="love-notes.html" class="gallery-button">Mensagens de Amor dos Amigos →</a>
-
-  <script>
-    // 🌙 Night mode based on time
-    const hour = new Date().getHours();
-    if (hour >= 18 || hour < 5) {
-      document.body.style.background = "linear-gradient(to bottom right, #0f1021, #391c2c, #774264)";
-      document.body.style.color = "#f0eaff";
-    }
-
-    // ✨ Sparkle Animation
-    const container = document.getElementById('sparkles-container');
-    const total = 30;
-
-    for (let i = 0; i < total; i++) {
-      const sparkle = document.createElement('div');
-      sparkle.className = 'sparkle';
-      sparkle.innerHTML = '✨';
-      sparkle.style.left = Math.random() * 100 + 'vw';
-      sparkle.style.top = Math.random() * 100 + 'vh';
-      sparkle.style.fontSize = Math.random() * 18 + 10 + 'px';
-      sparkle.style.animationDuration = Math.random() * 5 + 4 + 's';
-      sparkle.style.animationDelay = Math.random() * 3 + 's';
-      container.appendChild(sparkle);
-    }
-  </script>
+  <a href="love-notes.html" class="next-button">Ir para os Recados 💌</a>
 </body>
 </html>
+
