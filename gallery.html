@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Galeria Venyyy</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&display=swap');
@@ -13,6 +13,9 @@
       background: linear-gradient(to bottom right, #e6dcf5, #fffbea);
       color: #4a4a4a;
       padding: 2rem;
+      transition: background 1s ease, color 0.5s;
+      position: relative;
+      overflow-x: hidden;
     }
 
     h2 {
@@ -22,53 +25,118 @@
       margin-bottom: 2rem;
     }
 
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1.5rem;
-      max-width: 1200px;
-      margin: 0 auto;
+    .carousel-container {
+      overflow: hidden;
+      position: relative;
+      width: 100%;
     }
 
-    .gallery img {
-      width: 100%;
+    .carousel-track {
+      display: flex;
+      gap: 1.5rem;
+      animation: scrollImages 60s linear infinite;
+      width: max-content;
+    }
+
+    .carousel-track img {
+      height: 300px;
       border-radius: 15px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       object-fit: cover;
     }
+
+    @keyframes scrollImages {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    a.gallery-button {
+      display: block;
+      text-align: center;
+      margin: 3rem auto 0;
+      background: #dcd2f2;
+      color: #4a4a4a;
+      text-decoration: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 12px;
+      font-size: 1.2rem;
+      border: 1px solid #bba8e0;
+      transition: background 0.3s ease;
+      max-width: fit-content;
+    }
+
+    a.gallery-button:hover {
+      background: #c8bae5;
+    }
+
+    .sparkle {
+      position: fixed;
+      pointer-events: none;
+      animation: floatUp linear infinite;
+      z-index: 0;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0); opacity: 0.8; }
+      100% { transform: translateY(-100vh); opacity: 0; }
+    }
   </style>
 </head>
 <body>
-  <h2>Galeria do Venyyy</h2>
-  <div class="gallery">
-    <img src="venyyy1.jpg.jpg" alt="Venyyy - Foto 1">
-    <img src="https://via.placeholder.com/400x500?text=Foto+2" alt="Foto 2">
-    <img src="https://via.placeholder.com/500x300?text=Foto+3" alt="Foto 3">
-    <img src="https://via.placeholder.com/300x400?text=Foto+4" alt="Foto 4">
-    <img src="https://via.placeholder.com/600x400?text=Foto+5" alt="Foto 5">
-    <img src="https://via.placeholder.com/350x350?text=Foto+6" alt="Foto 6">
-    <img src="https://via.placeholder.com/400x600?text=Foto+7" alt="Foto 7">
-    <img src="https://via.placeholder.com/400x300?text=Foto+8" alt="Foto 8">
-    <img src="https://via.placeholder.com/500x500?text=Foto+9" alt="Foto 9">
-    <img src="https://via.placeholder.com/300x500?text=Foto+10" alt="Foto 10">
-    <img src="https://via.placeholder.com/600x300?text=Foto+11" alt="Foto 11">
-    <img src="https://via.placeholder.com/350x450?text=Foto+12" alt="Foto 12">
-    <img src="https://via.placeholder.com/400x400?text=Foto+13" alt="Foto 13">
+  <div id="sparkles-container"></div>
+
+  <h2>Galeria de Lembranças</h2>
+  <div class="carousel-container">
+    <div class="carousel-track">
+      <img src="venyyy1.jpg.jpg" alt="Foto 1">
+      <img src="https://via.placeholder.com/400x500?text=Foto+2" alt="Foto 2">
+      <img src="https://via.placeholder.com/500x300?text=Foto+3" alt="Foto 3">
+      <img src="https://via.placeholder.com/300x400?text=Foto+4" alt="Foto 4">
+      <img src="https://via.placeholder.com/600x400?text=Foto+5" alt="Foto 5">
+      <img src="https://via.placeholder.com/350x350?text=Foto+6" alt="Foto 6">
+      <img src="https://via.placeholder.com/400x600?text=Foto+7" alt="Foto 7">
+      <img src="https://via.placeholder.com/400x300?text=Foto+8" alt="Foto 8">
+      <img src="https://via.placeholder.com/500x500?text=Foto+9" alt="Foto 9">
+      <img src="https://via.placeholder.com/300x500?text=Foto+10" alt="Foto 10">
+      <img src="https://via.placeholder.com/600x300?text=Foto+11" alt="Foto 11">
+      <img src="https://via.placeholder.com/350x450?text=Foto+12" alt="Foto 12">
+      <img src="https://via.placeholder.com/400x400?text=Foto+13" alt="Foto 13">
+      <!-- Repetição para loop suave -->
+      <img src="venyyy1.jpg.jpg" alt="Foto 1 (rep)">
+      <img src="https://via.placeholder.com/400x500?text=Foto+2" alt="Foto 2 (rep)">
+      <img src="https://via.placeholder.com/500x300?text=Foto+3" alt="Foto 3 (rep)">
+    </div>
   </div>
+
+  <a href="love-notes.html" class="gallery-button">Mensagens de Amor dos Amigos →</a>
+
+  <script>
+    // 🌙 Night mode based on time
+    const hour = new Date().getHours();
+    if (hour >= 18 || hour < 5) {
+      document.body.style.background = "linear-gradient(to bottom right, #0f1021, #391c2c, #774264)";
+      document.body.style.color = "#f0eaff";
+    }
+
+    // ✨ Sparkle Animation
+    const container = document.getElementById('sparkles-container');
+    const total = 30;
+
+    for (let i = 0; i < total; i++) {
+      const sparkle = document.createElement('div');
+      sparkle.className = 'sparkle';
+      sparkle.innerHTML = '✨';
+      sparkle.style.left = Math.random() * 100 + 'vw';
+      sparkle.style.top = Math.random() * 100 + 'vh';
+      sparkle.style.fontSize = Math.random() * 18 + 10 + 'px';
+      sparkle.style.animationDuration = Math.random() * 5 + 4 + 's';
+      sparkle.style.animationDelay = Math.random() * 3 + 's';
+      container.appendChild(sparkle);
+    }
+  </script>
 </body>
 </html>
-
-
-<a href="love-notes.html" style="
-  display: inline-block;
-  background: #dcd2f2;
-  color: #4a4a4a;
-  text-decoration: none;
-  padding: 0.6rem 1.2rem;
-  border-radius: 12px;
-  font-size: 1.2rem;
-  margin-top: 2rem;
-  border: 1px solid #bba8e0;
-  transition: background 0.3s ease;
-">Mensagens de Amor dos Amigos →</a>
-

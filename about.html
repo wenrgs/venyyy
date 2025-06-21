@@ -10,13 +10,15 @@
     body {
       margin: 0;
       font-family: 'Dancing Script', cursive;
-      background: linear-gradient(to bottom right, #fffbea, #e6dcf5);
       color: #4a4a4a;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
       padding: 2rem;
+      background: linear-gradient(to bottom right, #fffbea, #e6dcf5);
+      transition: background 1s ease;
     }
 
     .container {
@@ -26,6 +28,7 @@
       padding: 2rem;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
       text-align: center;
+      z-index: 1;
     }
 
     .container h2 {
@@ -38,34 +41,78 @@
       font-size: 1.5rem;
       line-height: 1.6;
     }
+
+    a.gallery-button {
+      display: inline-block;
+      background: #dcd2f2;
+      color: #4a4a4a;
+      text-decoration: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 12px;
+      font-size: 1.2rem;
+      margin-top: 2rem;
+      border: 1px solid #bba8e0;
+      transition: background 0.3s ease;
+    }
+
+    a.gallery-button:hover {
+      background: #c8bae5;
+    }
+
+    #hearts-container div {
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0); opacity: 0.9; }
+      100% { transform: translateY(-100vh); opacity: 0; }
+    }
   </style>
 </head>
 <body>
+  <div id="hearts-container"></div>
+
   <div class="container">
     <h2>Oii amor!!</h2>
     <p>
-      Tudo bem? Espero que você goste da surpresa... <br><br>
-      Aproveito a oportunidade para lhe desejar tudo o que há de melhor no mundo,
-      e lhe agradecer por ser essa pessoa incrível com quem eu sei que sempre posso contar,
-      e sei que sempre vai estar mais preocupado comigo do que eu mesmo. <br><br>
-      Sou muito grato por este carinho e preocupação que você tem com o meu bem estar.<br>
-      Obrigado por isso, e por tanto!<br><br>
+      Tudo bem? Espero que você goste deste singelo presente, dediquei um tepãooo pra aprender a fazer... <br><br>
+      Aproveito essa oportunidade para te desejar tudo o que há de mais bonito e especial neste mundo.
+      Também quero te agradecer — por ser essa pessoa incrível em quem confio de olhos fechados, que está sempre ao meu lado, mesmo quando eu não percebo que preciso.
+      Você se preocupa comigo com um carinho tão genuíno, que muitas vezes se antecipa até aos meus próprios sentimentos.
+
+      Sou imensamente grato por esse cuidado constante, por esse amor que me acolhe todos os dias.
+      Obrigado por tudo… e por tanto.<br><br>
       Te amo infinito, príncipe!<br>
       Feliz aniversário!
     </p>
+    <a href="gallery.html" class="gallery-button">Ver nossa galeria de fotos →</a>
   </div>
+
+  <script>
+    // 🌙 Night Mode between 18h and 5h
+    const now = new Date();
+    const hour = now.getHours();
+    if (hour >= 18 || hour < 5) {
+      document.body.style.background = "linear-gradient(to bottom right, #0f1021, #391c2c, #774264)";
+      document.body.style.color = "#f2e8ff";
+    }
+
+    // ❤️ Heart Animation
+    const container = document.getElementById('hearts-container');
+    const total = 30;
+
+    for (let i = 0; i < total; i++) {
+      const heart = document.createElement('div');
+      heart.innerHTML = '❤️';
+      heart.style.position = 'fixed';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.top = Math.random() * 100 + 'vh';
+      heart.style.fontSize = Math.random() * 24 + 12 + 'px';
+      heart.style.opacity = 0.8;
+      heart.style.animation = `floatUp ${Math.random() * 5 + 5}s linear infinite`;
+      container.appendChild(heart);
+    }
+  </script>
 </body>
 </html>
-<br><br>
-<a href="gallery.html" style="
-  display: inline-block;
-  background: #dcd2f2;
-  color: #4a4a4a;
-  text-decoration: none;
-  padding: 0.6rem 1.2rem;
-  border-radius: 12px;
-  font-size: 1.2rem;
-  margin-top: 2rem;
-  border: 1px solid #bba8e0;
-  transition: background 0.3s ease;
-">Ver nossa galeria de fotos →</a>

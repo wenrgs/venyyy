@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Céu Musical de Venyyy</title>
+<style>
+  body { margin: 0; overflow: hidden; font-family: Arial, sans-serif; background-color: #0d1b2a; }
+  .day-message { display: none; position: absolute; top: 40%; width: 100%; text-align: center;
+    font-size: 2rem; color: #444; z-index: 2; }
+  .clouds {
+    position: absolute; width: 100%; height: 100%;
+    background: url('https://www.transparenttextures.com/patterns/clouds.png') repeat-x;
+    animation: cloudmove 60s linear infinite; z-index: 1;
+  }
+  @keyframes cloudmove { 0% { background-position: 0 0; } 100% { background-position: -2000px 0; } }
+
+  .night-sky {
+    display: none; background: linear-gradient(to bottom, #0d1b2a, #1b263b);
+    position: relative; width: 100vw; height: 100vh; z-index: 0;
+  }
+  .star {
+    position: absolute; width: 10px; height: 10px;
+    background: white; border-radius: 50%;
+    box-shadow: 0 0 8px 4px rgba(255,255,255,0.3);
+    cursor: pointer; animation: twinkle 2s infinite ease-in-out;
+  }
+  .star:hover { transform: scale(1.4); box-shadow: 0 0 12px 6px rgba(255,255,255,0.6); }
+  @keyframes twinkle { 0%,100%{opacity:1;}50%{opacity:0.4;} }
+
+  .moon {
+    position: absolute; top: 10%; left: 80%;
+    width: 80px; height: 80px; border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #fff, #ccc);
+    box-shadow: 0 0 20px #fff;
+  }
+
+  .btn-home {
+    position: fixed; bottom: 20px; left: 20px;
+    background: #ffffff44; color: #fff; padding: 0.6rem 1rem;
+    border-radius: 12px; text-decoration: none; font-weight: bold;
+    border: 1px solid #fff; backdrop-filter: blur(4px); transition: background 0.3s;
+    z-index: 10;
+  }
+</style>
+</head>
+<body>
+
+<div class="day-message" id="dayMessage">Volte à noite para ver o céu estrelado</div>
+<div class="clouds" id="clouds"></div>
+<div class="night-sky" id="nightSky"><div class="moon"></div></div>
+<a href="index.html" class="btn-home">⬅ Voltar ao Início</a>
+
+<script>
+  const apiKey = "9f02894b66217b9b227aceb729352981";
+  const user = "Fionanokia";
+  const now = new Date().getHours();
+  const isNight = now >= 18 || now < 5;
+
+  if (isNight) {
+    document.getElementById("nightSky").style.display = "block";
+    document.getElementById("clouds").style.display = "none";
+
+    // Buscar até 365 músicas do Last.fm
+    fetch(`https://ws.audioscrobbler.com/2.0/?method=user.getTopTracks&user=${user}&limit=365&api_key=${apiKey}&format=json`)
+      .then(r => r.json())
+      .then(d => {
+        const tracks = d.toptracks.track;
+        // Criar 13 estrelas com músicas diferentes
+        for (let i = 0; i < 13; i++) {
+          const song = tracks[Math.floor(Math.random()*tracks.length)];
+          const star = document.createElement("div");
+          star.className = "star";
+          star.style.left = Math.random()*95 + "vw";
+          star.style.top = Math.random()*85 + "vh";
+          star.onclick = () => window.open(song.url, "_blank");
+          star.title = `${song.name} — ${song.artist.name}`;
+          document.getElementById("nightSky").appendChild(star);
+        }
+      })
+      .catch(console.error);
+
+  } else {
+    document.getElementById("dayMessage").style.display = "block";
+  }
+</script>
+
+</body>
+</html>
