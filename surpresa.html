@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>365 Party Girl – Explosão Visual</title>
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; overflow: hidden; background: black; }
+
+    .bg-photo {
+      position: fixed;
+      inset: 0;
+      background: url("surpresa.jpg.jpeg") center/cover no-repeat;
+      z-index: 0;
+    }
+
+    canvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .party-text {
+      position: fixed;
+      transform: translate(-50%, -50%) rotate(0deg);
+      color: #00ff6a;
+      font-family: "Comic Sans MS", Impact, cursive;
+      font-weight: bold;
+      white-space: nowrap;
+      text-shadow:
+        0 0 6px #fff,
+        0 0 10px #00ff6a,
+        0 0 14px #00ff6a;
+      z-index: 2;
+      animation:
+        blink 0.6s steps(2, start) infinite,
+        floatDance 4s ease-out forwards;
+    }
+
+    @keyframes blink {
+      0% { opacity: 1; }
+      50% { opacity: 0.1; transform: scale(1.2); }
+      100% { opacity: 1; }
+    }
+
+    @keyframes floatDance {
+      0% {
+        transform: translate(-50%, -50%) scale(1) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(-50%, -300%) scale(1.8) rotate(1080deg);
+        opacity: 0;
+      }
+    }
+
+    .return-button {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #ff00e1;
+      color: white;
+      font-family: "Comic Sans MS", cursive;
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-size: 1.2rem;
+      text-decoration: none;
+      box-shadow: 0 0 12px #ff00e1, 0 0 24px #ff5ef4;
+      z-index: 999;
+      animation: pulseReturn 1.2s infinite alternate;
+      text-shadow: 0 0 5px white;
+    }
+
+    @keyframes pulseReturn {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.15); }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="bg-photo"></div>
+  <canvas id="confetti"></canvas>
+
+  <a href="index.html" class="return-button">← Voltar para o Início</a>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <script>
+    const canvas = document.getElementById("confetti");
+    const confetti = window.confetti.create(canvas, { resize: true, useWorker: true });
+
+    // Confetes explodindo em rajadas de todos os cantos
+    function fullExplosion() {
+      for (let i = 0; i < 5; i++) {
+        confetti({
+          particleCount: 100,
+          spread: 360,
+          startVelocity: 60,
+          decay: 0.92,
+          scalar: 0.8 + Math.random() * 0.4,
+          origin: {
+            x: Math.random(),
+            y: Math.random(),
+          }
+        });
+      }
+    }
+
+    setInterval(fullExplosion, 400);
+    fullExplosion();
+
+    // Letras "365 Party Girl" surgindo em massa
+    function spawnText(){
+      const span = document.createElement("span");
+      span.className = "party-text";
+      span.textContent = "365 Party Girl";
+
+      span.style.left = (Math.random() * 100) + "vw";
+      span.style.top = (Math.random() * 100) + "vh";
+      span.style.fontSize = (1 + Math.random() * 2) + "rem";
+      span.style.transform = `translate(-50%, -50%) rotate(${Math.random() * 360}deg)`;
+
+      document.body.appendChild(span);
+      setTimeout(() => span.remove(), 4000);
+    }
+
+    setInterval(() => {
+      for (let i = 0; i < 5; i++) spawnText();
+    }, 300);
+  </script>
+</body>
+</html>
