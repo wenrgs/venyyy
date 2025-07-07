@@ -14,33 +14,42 @@
       flex-direction: column;
       align-items: center;
     }
+
     h1 {
       margin: 20px 0;
       font-family: 'Segoe UI', cursive;
       color: #7c5e99;
     }
+
     .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 15px;
+      column-count: 3;
+      column-gap: 15px;
       padding: 20px;
       width: 90%;
       max-width: 1200px;
     }
+
     .gallery-item {
+      break-inside: avoid;
+      margin-bottom: 15px;
       border-radius: 10px;
       overflow: hidden;
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
       transition: transform 0.3s ease;
     }
+
     .gallery-item:hover {
       transform: scale(1.03);
     }
-    .gallery-item img {
+
+    .gallery-item img,
+    .gallery-item iframe {
       width: 100%;
       height: auto;
       display: block;
+      border-radius: 10px;
     }
+
     .next-button {
       margin: 30px;
       padding: 12px 24px;
@@ -53,25 +62,62 @@
       cursor: pointer;
       transition: background 0.3s ease;
     }
+
     .next-button:hover {
       background-color: #b383e3;
+    }
+
+    @media (max-width: 768px) {
+      .gallery { column-count: 2; }
+    }
+
+    @media (max-width: 480px) {
+      .gallery { column-count: 1; }
     }
   </style>
 </head>
 <body>
   <h1>Galeria de Lembranças</h1>
+
   <div class="gallery">
-    <div class="gallery-item"><img src="venyyy1.jpg.jpg" alt="Foto 1" /></div>
-    <div class="gallery-item"><img src="venyyy2.jpg.jpeg" alt="Foto 2" /></div>
-    <div class="gallery-item"><img src="venyyy3.jpg.jpeg" alt="Foto 3" /></div>
-    <div class="gallery-item"><img src="venyyy4.jpg.jpeg" alt="Foto 4" /></div>
-    <div class="gallery-item"><img src="venyyy5.jpg.jpeg" alt="Foto 5" /></div>
-    <div class="gallery-item"><img src="venyyy6.jpg.jpeg" alt="Foto 6" /></div>
-    <div class="gallery-item"><img src="venyyy7.jpg.jpeg" alt="Foto 7" /></div>
-    <div class="gallery-item"><img src="venyyy8.jpg.jpeg" alt="Foto 8" /></div>
+    <div class="gallery-item"><img src="jamile.jpg.jpeg" alt="Foto 1" /></div>
+    <div class="gallery-item"><img src="bruna.jpg.jpeg" alt="Foto 2" /></div>
+    <div class="gallery-item"><img src="dalila.jpg.jpeg" alt="Foto 3" /></div>
+    <div class="gallery-item"><img src="miih1.jpg.jpeg" alt="Foto 4" /></div>
+    <div class="gallery-item"><img src="miih2.jpg.jpeg" alt="Foto 5" /></div>
+    <div class="gallery-item"><img src="rafa.jpg.jpeg" alt="Foto 6" /></div>
+    <div class="gallery-item"><img src="kaue.jpg.jpeg" alt="Foto 7" /></div>
+    <div class="gallery-item"><img src="jvtrindade.jpg.jpeg" alt="Foto 8" /></div>
+    <div class="gallery-item"><img src="matheus.jpg.jpeg" alt="Foto 9" /></div>
+    <div class="gallery-item"><img src="joao.jpg.jpeg" alt="Foto 10" /></div>
+    <div class="gallery-item"><img src="rick.jpg.jpeg" alt="Foto 11" /></div>
+    <div class="gallery-item"><img src="luara.jpg.jpeg" alt="Foto 12" /></div>
+
+    <!-- ✨ VÍDEO DO YOUTUBE EMBUTIDO AQUI ✨ -->
+    <div class="gallery-item">
+      <iframe src="https://www.youtube.com/embed/klSG1nXm4Ag"
+        title="Lembrança em vídeo"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+      </iframe>
+    </div>
+
+    <div class="gallery-item"><img src="meg1.jpg.jpeg" alt="Foto 13" /></div>
+    <div class="gallery-item"><img src="meg2.jpg.jpeg" alt="Foto 14" /></div>
+    <div class="gallery-item"><img src="meg3.jpg.jpeg" alt="Foto 15" /></div>
+    <div class="gallery-item"><img src="mirelle.jpg.jpeg" alt="Foto 16" /></div>
+    <div class="gallery-item"><img src="lais.jpg.jpeg" alt="Foto 17" /></div>
+    <div class="gallery-item"><img src="lais1.jpg.jpeg" alt="Foto 18" /></div>
+    <div class="gallery-item"><img src="lais2.jpg.jpeg" alt="Foto 19" /></div>
+    <div class="gallery-item"><img src="emilly1.jpg.jpeg" alt="Foto 20" /></div>
+    <div class="gallery-item"><img src="emilly.jpg.jpeg" alt="Foto 21" /></div>
+    <div class="gallery-item"><img src="atalidio.jpg.jpeg" alt="Foto 22" /></div>
+    <div class="gallery-item"><img src="jubabu.jpg.jpeg" alt="Foto 23" /></div>
+    <div class="gallery-item"><img src="marcelly1.jpg.jpeg" alt="Foto 24" /></div>
+    <div class="gallery-item"><img src="marcelly2.jpg.jpeg" alt="Foto 25" /></div>
   </div>
 
   <a href="love-notes.html" class="next-button">Ir para os Recados 💌</a>
 </body>
 </html>
-
