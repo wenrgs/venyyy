@@ -6,123 +6,187 @@
   <title>Memory Track – Venyyy</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&display=swap');
-    body {
-      margin: 0;
-      padding: 2rem;
-      font-family: 'Dancing Script', cursive;
-      background: linear-gradient(to bottom right, #fffbea, #e6dcf5);
-      color: #4a4a4a;
-      text-align: center;
-    }
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-      color: #5c5470;
-    }
-    .track {
-      margin: 1.5rem auto;
-      padding: 1rem;
-      max-width: 600px;
-      background: #ffffffcc;
-      border-radius: 15px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
-    .track img {
-      width: 100px;
-      border-radius: 10px;
-    }
-    .track-title {
-      font-size: 1.5rem;
-      margin: 0.5rem 0;
-    }
-    .track-date {
-      font-size: 1rem;
-      color: #888;
-    }
-    .btn-home {
-      display: inline-block;
-      background: #dcd2f2;
-      color: #4a4a4a;
-      text-decoration: none;
-      padding: 0.6rem 1.2rem;
-      border-radius: 12px;
-      font-size: 1.2rem;
-      margin-top: 1.5rem;
-      border: 1px solid #bba8e0;
-      transition: background 0.3s ease;
-    }
-    .btn-home:hover {
-      background: #c4b5ec;
-    }
+
+    body{margin:0;padding:2rem;font-family:'Dancing Script',cursive;
+         background:linear-gradient(to bottom right,#fffbea,#e6dcf5);
+         color:#4a4a4a;text-align:center;}
+
+    h1{font-size:2.5rem;margin-bottom:1rem;color:#5c5470;}
+
+    .track{margin:1.5rem auto;padding:1rem;max-width:600px;
+           background:#ffffffcc;border-radius:15px;
+           box-shadow:0 4px 10px rgba(0,0,0,.1);}
+
+    .track img{width:100px;border-radius:10px;}
+
+    .track-title{font-size:1.5rem;margin:.5rem 0;}
+
+    .track-date{font-size:1rem;color:#888;}
+
+    .btn-home{display:inline-block;background:#dcd2f2;color:#4a4a4a;
+              text-decoration:none;padding:.6rem 1.2rem;border-radius:12px;
+              font-size:1.2rem;margin-top:1.5rem;border:1px solid #bba8e0;
+              transition:background .3s ease;}
+
+    .btn-home:hover{background:#c4b5ec;}
   </style>
 </head>
 <body>
+
   <h1>Venyyy's Memory Track 🎧</h1>
   <div id="results">Carregando memórias musicais...</div>
 
+  <a href="surpresa.html"
+     class="btn-home"
+     style="background:#00ff6a;color:#fff;text-shadow:0 0 5px #fff,0 0 10px #00ff6a;">
+     ✨ Ir para a 365 Party Girl ✨
+  </a>
+
+  <!-- MEMÓRIA COMPARTILHADA -->
+  <h2 style="margin-top:3rem;color:#5c5470;">
+    ✨ Quando bludnbutter ouviu uma das tuas memórias? ✨
+  </h2>
+  <button onclick="findLastPlayByOther()"
+          class="btn-home"
+          style="background:#b0a0dc;">
+    🔍 Procurar última audição
+  </button>
+  <div id="sharedResults" style="margin-top:2rem;"></div>
+
+  <!-- SCRIPT ORIGINAL – MEMÓRIAS DO VENYYY -->
   <script>
     const API_KEY = '9f02894b66217b9b227aceb729352981';
     const USER = 'Fionanokia';
-    const today = new Date();
-    const day = String(today.getDate()).padStart(2, '0');
-    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const OTHER = 'bludnbutter';
+
+    const today   = new Date();
+    const day     = String(today.getDate()).padStart(2,'0');
+    const month   = String(today.getMonth()+1).padStart(2,'0');
     const yearsBack = 5;
 
     const resultsDiv = document.getElementById('results');
+    const memoryKeys = [];   // ← guardará as músicas do Venyyy para comparação
 
-    async function fetchTracksForDate(year) {
-      const from = Math.floor(new Date(`${year}-${month}-${day}T00:00:00`).getTime() / 1000);
-      const to = Math.floor(new Date(`${year}-${month}-${day}T23:59:59`).getTime() / 1000);
+    async function fetchTracksForDate(year){
+      const from = Math.floor(new Date(`${year}-${month}-${day}T00:00:00`).getTime()/1000);
+      const to   = Math.floor(new Date(`${year}-${month}-${day}T23:59:59`).getTime()/1000);
 
       const url = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${USER}&from=${from}&to=${to}&api_key=${API_KEY}&format=json&limit=1`;
-      const response = await fetch(url);
-      const data = await response.json();
+      const r   = await fetch(url);
+      const d   = await r.json();
 
-      if (data.recenttracks && data.recenttracks.track && data.recenttracks.track.length > 0) {
-        const track = data.recenttracks.track[0];
-        return {
-          year,
-          name: track.name,
-          artist: track.artist['#text'],
-          image: track.image[2]['#text'],
-          url: track.url
-        };
-      } else {
-        return { year, name: null };
+      if(d.recenttracks?.track?.length){
+        const t = d.recenttracks.track[0];
+        return {year,
+                name:t.name,
+                artist:t.artist['#text'],
+                image:t.image[2]['#text'],
+                url:t.url};
       }
+      return {year,name:null};
     }
 
-    async function loadMemoryTracks() {
-      let html = '';
-      const currentYear = today.getFullYear();
+    async function loadMemoryTracks(){
+      let html='';
+      const currentYear=today.getFullYear();
 
-      for (let y = 1; y <= yearsBack; y++) {
-        const year = currentYear - y;
-        const track = await fetchTracksForDate(year);
+      for(let y=1;y<=yearsBack;y++){
+        const year=currentYear-y;
+        const t=await fetchTracksForDate(year);
 
-        if (track.name) {
-          html += `
+        if(t.name){
+          const key=`${t.name.toLowerCase()}-${t.artist.toLowerCase()}`;
+          memoryKeys.push({key,name:t.name,artist:t.artist,image:t.image,url:t.url});
+
+          html+=`
             <div class="track">
-              <div class="track-date">${day}/${month}/${track.year}</div>
-              <img src="${track.image}" alt="Capa da música">
-              <div class="track-title">🎵 <a href="${track.url}" target="_blank">${track.name}</a> – ${track.artist}</div>
-            </div>
-          `;
-        } else {
-          html += `
+              <div class="track-date">${day}/${month}/${t.year}</div>
+              <img src="${t.image}" alt="Capa da música">
+              <div class="track-title">🎵 <a href="${t.url}" target="_blank">${t.name}</a> – ${t.artist}</div>
+            </div>`;
+        }else{
+          html+=`
             <div class="track">
-              <div class="track-date">${day}/${month}/${track.year}</div>
+              <div class="track-date">${day}/${month}/${t.year}</div>
               <div class="track-title">Nenhuma música registrada neste dia.</div>
-            </div>
-          `;
+            </div>`;
         }
       }
-
-      resultsDiv.innerHTML = html;
+      resultsDiv.innerHTML=html;
     }
-
     loadMemoryTracks();
   </script>
 
-  <a href="surpresa.html" class="btn-home" style="background:#00ff6a; color:white; text-shadow: 0 0 5px white, 0 0 10px #00ff6a;">✨ Ir para a 365 Party Girl ✨</a>
+  <!-- SCRIPT – ÚLTIMA AUDIÇÃO DO OUTRO USUÁRIO -->
+  <script>
+    async function fetchRecentTracks(user,page=1,limit=200){
+      const url = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${user}&api_key=${API_KEY}&format=json&limit=${limit}&page=${page}`;
+      const r   = await fetch(url);
+      const d   = await r.json();
+      return d.recenttracks?.track || [];
+    }
 
+    function trackKey(t){
+      return `${t.name.toLowerCase()}-${t.artist['#text'].toLowerCase()}`;
+    }
+
+    async function findLastPlayByOther(){
+      const sharedDiv=document.getElementById('sharedResults');
+      sharedDiv.innerHTML='🔄 Procurando... (pode levar alguns segundos)';
+
+      let page=1, maxPages=10, found=null;
+
+      outer: while(page<=maxPages){
+        const tracks=await fetchRecentTracks(OTHER,page);
+        if(!tracks.length) break;
+
+        for(const t of tracks){
+          const key=trackKey(t);
+          const match=memoryKeys.find(m=>m.key===key);
+          if(match){
+            found={ match,
+                    date:t.date ? new Date(t.date.uts*1000) : null };
+            break outer;
+          }
+        }
+        page++;
+      }
+
+      if(found){
+        const dt=found.date
+               ? dtFormat(found.date)
+               : 'data indisponível';
+
+        sharedDiv.innerHTML=`
+          <div class="track">
+            <div class="track-date">${dt}</div>
+            <img src="${found.match.image}" alt="Capa da música">
+            <div class="track-title">
+              🎵 <a href="${found.match.url}" target="_blank">${found.match.name}</a>
+              – ${found.match.artist}
+            </div>
+            <div class="track-date">
+              Última reprodução por <strong>${OTHER}</strong>
+            </div>
+          </div>`;
+      }else{
+        sharedDiv.innerHTML=`
+          <p style="font-size:1.2rem;">
+            ${OTHER} não ouviu nenhuma das tuas memórias nos últimos
+            ${(200*10).toLocaleString()} scrobbles.
+          </p>`;
+      }
+    }
+
+    function dtFormat(d){
+      const dd=String(d.getDate()).padStart(2,'0');
+      const mm=String(d.getMonth()+1).padStart(2,'0');
+      const yyyy=d.getFullYear();
+      const hh=String(d.getHours()).padStart(2,'0');
+      const min=String(d.getMinutes()).padStart(2,'0');
+      return `${dd}/${mm}/${yyyy} – ${hh}:${min}`;
+    }
+  </script>
+
+</body>
+</html>
