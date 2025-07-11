@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -22,6 +22,39 @@
       overflow-x: hidden;
       transition: background 0.5s, color 0.5s;
       position: relative;
+    }
+
+    /* MENU DE NAVEGAÇÃO */
+    .menu-navegacao {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(5px);
+      padding: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      text-align: center;
+    }
+
+    .menu-navegacao ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+
+    .menu-navegacao a {
+      text-decoration: none;
+      color: #5c5470;
+      font-weight: bold;
+      transition: color 0.3s ease;
+    }
+
+    .menu-navegacao a:hover {
+      color: #9c88ff;
+      text-shadow: 0 0 5px #cbb2ff;
     }
 
     .hero {
@@ -78,6 +111,21 @@
   </style>
 </head>
 <body>
+
+  <!-- MENU DE NAVEGAÇÃO -->
+  <nav class="menu-navegacao">
+    <ul>
+      <li><a href="index.html">Início</a></li>
+      <li><a href="about.html">Sobre Ele</a></li>
+      <li><a href="gallery.html">Galeria</a></li>
+      <li><a href="love-notes.html">Recadinhos</a></li>
+      <li><a href="playlist.html">Músicas</a></li>
+      <li><a href="memory-track.html">Linha do Tempo</a></li>
+      <li><a href="surpresa.html">Mural</a></li>
+     
+    </ul>
+  </nav>
+
   <section class="hero">
     <h1>Feliz Aniversário Meu Lindo!</h1>
     <p>Te Amo infinitamente querido, este espaço virtual é para celebrar sua vida!</p>
@@ -100,11 +148,11 @@
         document.body.appendChild(heart);
       }
 
-      // 🌙 Modo noturno com cores inspiradas em Midnights
+      // Modo noturno automático
       const hora = new Date().getHours();
       if (hora >= 18 || hora < 5) {
-        document.documentElement.style.setProperty('--cor-primaria', '#3e2f4d');  // roxo profundo
-        document.documentElement.style.setProperty('--cor-secundaria', '#1f1b2e'); // azul-vinho escuro
+        document.documentElement.style.setProperty('--cor-primaria', '#3e2f4d');
+        document.documentElement.style.setProperty('--cor-secundaria', '#1f1b2e');
         document.documentElement.style.setProperty('--cor-texto', '#f0e6ff');
         document.documentElement.style.setProperty('--imagem-fundo', "url('https://source.unsplash.com/featured/?stars,night')");
       }
